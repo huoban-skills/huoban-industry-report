@@ -1,9 +1,9 @@
-# hb-industry-report
+# huoban-industry-report
 
 > **别人拿全网二手信息写给行家看，它拿你的一手访谈写给小白看。**
 > 把一场两小时的行业访谈，变成一份产品经理能读懂的行业分析报告——从「要素、交付、赋能」里，救出「私下透商机、报备锁单、垫资集采」。
 
-[![skills.sh](https://skills.sh/b/huoban-skills/hb-industry-report)](https://skills.sh/s/huoban-skills/hb-industry-report) ![Agent Skills](https://img.shields.io/badge/Agent-Skills-black) ![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-6b4c9a) ![Codex](https://img.shields.io/badge/Codex-compatible-10a37f) ![OpenClaw](https://img.shields.io/badge/OpenClaw-compatible-f28c28) ![License](https://img.shields.io/badge/license-MIT-blue)
+[![skills.sh](https://skills.sh/b/huoban-skills/huoban-industry-report)](https://skills.sh/s/huoban-skills/huoban-industry-report) ![Agent Skills](https://img.shields.io/badge/Agent-Skills-black) ![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-6b4c9a) ![Codex](https://img.shields.io/badge/Codex-compatible-10a37f) ![OpenClaw](https://img.shields.io/badge/OpenClaw-compatible-f28c28) ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## 你什么时候需要它？
 
@@ -48,18 +48,14 @@ $ python3 scripts/finalize.py 城投定融行业分析报告.html
 ## 快速开始
 
 ```bash
-npx skills add huoban-skills/hb-industry-report
+npx skills add huoban-skills/huoban-industry-report
 ```
 
 或者直接 clone 到 skills 目录：
 
 ```bash
-git clone https://github.com/huoban-skills/hb-industry-report.git ~/.claude/skills/hb-industry-report
+git clone https://github.com/huoban-skills/huoban-industry-report.git ~/.claude/skills/huoban-industry-report
 ```
-
-然后把访谈素材丢给 Agent：
-
-> 根据这份访谈，出一份行业分析报告
 
 ## 触发方式
 
@@ -71,13 +67,13 @@ git clone https://github.com/huoban-skills/hb-industry-report.git ~/.claude/skil
 
 ## 它和同类有什么不同？
 
-| | 常见的行业研报 skill | hb-industry-report |
-|---|---|---|
-| 信息源 | 全网二手信息 + 多 agent 并行搜刮 | **一手访谈**（也支持零素材，但会明说深度弱一档） |
-| 读者 | 默认你已经懂行（PE / 买方腔） | **零背景的产品经理**，术语两级处理、黑话就地解释 |
-| 抽象词 | 「产业链协同」「资源整合」 | **抽象词是黑名单，机检拦截**：要素/交付/赋能/协同一律判 FAIL |
-| 质量保证 | 靠 prompt 里写"请注意准确" | **可执行质量闸**，FAIL 不清零不许交付 |
-| 产物 | Markdown | 杂志级单文件 HTML + PDF + 独立 SVG + 飞书文档 |
+|          | 常见的行业研报 skill             | huoban-industry-report                                           |
+| -------- | -------------------------------- | ------------------------------------------------------------ |
+| 信息源   | 全网二手信息 + 多 agent 并行搜刮 | **一手访谈**（也支持零素材，但会明说深度弱一档）             |
+| 读者     | 默认你已经懂行（PE / 买方腔）    | **零背景的产品经理**，术语两级处理、黑话就地解释             |
+| 抽象词   | 「产业链协同」「资源整合」       | **抽象词是黑名单，机检拦截**：要素/交付/赋能/协同一律判 FAIL |
+| 质量保证 | 靠 prompt 里写"请注意准确"       | **可执行质量闸**，FAIL 不清零不许交付                        |
+| 产物     | Markdown                         | 杂志级单文件 HTML + PDF + 独立 SVG + 飞书文档                |
 
 ## 安全边界
 
@@ -89,7 +85,7 @@ git clone https://github.com/huoban-skills/hb-industry-report.git ~/.claude/skil
 ## 文件结构
 
 ```
-hb-industry-report/
+huoban-industry-report/
 ├── SKILL.md                      # 输入分流、工作流程、8 条铁律、自检清单
 ├── references/framework.md       # 逐节写作指南（含 5 类骨架图的画法）
 ├── references/desk-research.md   # 素材不足时：哪些能写、哪些必须留白
