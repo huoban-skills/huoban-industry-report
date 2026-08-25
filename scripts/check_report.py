@@ -2,7 +2,7 @@
 """报告内容自检（零 token，代替人肉 grep 自检清单）。
 
 把 SKILL.md 自检清单里「机器能判的」那部分变成可执行的质量闸：
-交付（导 PDF / 同步飞书）之前必须 FAIL=0。
+交付（导 PDF）之前必须 FAIL=0。
 
 用法：
     python3 scripts/check_report.py <报告.html> [更多报告.html ...]
