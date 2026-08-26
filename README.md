@@ -88,7 +88,8 @@ git clone https://github.com/huoban-skills/huoban-industry-report.git ~/.claude/
 huoban-industry-report/
 ├── SKILL.md                      # 输入分流、工作流程、8 条铁律、自检清单
 ├── references/framework.md       # 逐节写作指南（含 5 类骨架图的画法）
-├── references/desk-research.md   # 素材不足时：哪些能写、哪些必须留白
+├── references/research.md        # 检索通则：查什么、怎么扩口径、来源分级、查到哪停
+├── references/desk-research.md   # 无一手访谈时：哪些能写、哪些必须留白
 ├── scripts/finalize.py           # 终稿统一入口：重导 SVG + 内容检查 + 图形检查
 ├── scripts/check_report.py       # 质量闸：章节/图号/术语/抽象词/硬编码色
 ├── scripts/check_svg_overlap.py  # 图形自检：线穿文字、文字出画布
