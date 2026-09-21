@@ -5,7 +5,9 @@
 交付之前必须 FAIL=0。
 
 用法：
-    python3 scripts/check_report.py <报告.html> [更多报告.html ...]
+    python3 scripts/check_report.py [--redact 名1,名2] <报告.html> [更多报告.html ...]
+
+--redact：访谈企业的公司全称、简称、品牌名、受访人姓名，逗号分隔；全文（含标题、图内文字）命中即 FAIL。
 
 退出码：有 FAIL 返回 1，否则 0（可接进 CI / 交付前置条件）。
 
@@ -22,6 +24,10 @@
  10. 图解元话语      "如图所示""把图 N 走一遍"这类废话                 WARN
  11. 系统维度用语    按钮/字段/自动化/导入导出（行业固有词会误报）      WARN
  12. 业务块五段      3.2 每个 .block 固定五个 h5 齐全                    FAIL
+ 13. 手机端声明      <head> 里有 viewport（没有则手机上整页缩小、字极小）  FAIL
+ 14. 照片内嵌        <img> 必须是 data URI，外链/相对路径换机器就裂图     FAIL
+ 15. 照片来源        含 <img> 的 figure 图注里写明「图片来源」            FAIL
+ 16. 脱敏            --redact 给出的名称全文零命中                        FAIL
 """
 import re
 import sys
@@ -43,10 +49,20 @@ def strip_tags(s):
     return re.sub(r"<[^>]+>", "", s)
 
 
-def check(path):
+def check(path, redact=()):
     src = open(path, encoding="utf-8").read()
     body = src.split("</head>", 1)[-1]
     fails, warns = [], []
+
+    # --- 13. 手机端 viewport ---
+    if not re.search(r'<meta[^>]*name="viewport"', src):
+        fails.append('[手机端声明] 缺 <meta name="viewport" content="width=device-width, initial-scale=1">——手机上会按桌面宽度缩小渲染，字极小')
+
+    # --- 16. 脱敏 ---
+    for name in redact:
+        n = H.unescape(src).count(name)
+        if n:
+            fails.append(f"[脱敏] 「{name}」出现 {n} 次——访谈企业一律写「访谈企业」，人名写岗位")
 
     # --- 1. 章节骨架 ---
     heads = " ".join(re.findall(r"<h3[^>]*>(.*?)</h3>", body, re.S))
@@ -67,6 +83,16 @@ def check(path):
             fails.append(f"[图注完整] 第 {i} 个图的 figcaption 里没有「图 N」编号")
         else:
             nums.append(int(m.group(1)))
+    # --- 14/15. 实物照片 ---
+    for i, fig in enumerate(figures, 1):
+        for img in re.findall(r"<img\b[^>]*>", fig):
+            if not re.search(r'src="data:image/', img):
+                fails.append(f"[照片内嵌] 第 {i} 个图的 <img> 不是 data URI——用 scripts/embed_photo.py 内嵌")
+            if "图片来源" not in strip_tags(fig):
+                fails.append(f"[照片来源] 第 {i} 个图是照片，图注里没有「图片来源」")
+    loose = len(re.findall(r"<img\b", body)) - sum(len(re.findall(r"<img\b", f)) for f in figures)
+    if loose:
+        fails.append(f"[照片内嵌] 有 {loose} 个 <img> 不在 <figure> 里——照片一律走 figure.photo，带图号与来源")
     if nums:
         expect = list(range(1, len(nums) + 1))
         if nums != expect:
@@ -172,10 +198,24 @@ def check(path):
     return fails, warns
 
 
-def main(paths):
+def parse_args(argv):
+    """拆出 --redact 名1,名2，其余当作报告路径。"""
+    redact, paths, it = [], [], iter(argv)
+    for a in it:
+        if a == "--redact":
+            a = "--redact=" + next(it, "")
+        if a.startswith("--redact="):
+            redact += [x.strip() for x in re.split(r"[,，]", a.split("=", 1)[1]) if x.strip()]
+        else:
+            paths.append(a)
+    return paths, redact
+
+
+def main(argv):
+    paths, redact = parse_args(argv)
     total_fail = 0
     for p in paths:
-        fails, warns = check(p)
+        fails, warns = check(p, redact)
         total_fail += len(fails)
         print(f"\n{'='*64}\n{p}")
         for f in fails:

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """终稿复检：定稿后、交付前，跑这一个脚本把三件事一次做完。
 
-    python3 scripts/finalize.py <行业名>/<报告.html>
+    python3 scripts/finalize.py [--redact 公司全称,简称,受访人姓名] <行业名>/<报告.html>
+
+有访谈素材时必须带 --redact：列出的名称在全文零命中才算过。
 
   1. 重导 figures/  —— 把 HTML 里每张内嵌 SVG 重新导成独立 .svg（浅色化 + 补 xmlns），
                       并确认导出文件不再残留 var()。
@@ -16,7 +18,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from check_report import check as content_check          # noqa: E402
+from check_report import check as content_check, parse_args   # noqa: E402
 from check_svg_overlap import check_file as shape_check   # noqa: E402
 
 # 独立 SVG 脱离 HTML 后 var() 不生效，按浅色主题写死
@@ -77,7 +79,8 @@ def check_exported_figures(html_path):
     return fails
 
 
-def main(paths):
+def main(argv):
+    paths, redact = parse_args(argv)
     total_fail = 0
     for p in paths:
         print(f"\n{'='*64}\n{p}")
@@ -89,7 +92,7 @@ def main(paths):
         export_status = 'PASS' if not export_fails else f'{len(export_fails)} 项 FAIL'
         print(f"  ① figures/ 重导 {n} 张（与报告对齐；变量检查 {export_status}）")
 
-        fails, warns = content_check(p)
+        fails, warns = content_check(p, redact)
         for f in fails:
             print(f"     FAIL {f}")
         for w in warns:

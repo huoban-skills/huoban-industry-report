@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>【行业名】行业分析报告</title>
 <style>
 :root {
@@ -142,6 +147,9 @@ li::marker { color: var(--gold); }
 }
 .figure figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; text-align: center; }
 .figure figcaption b { color: var(--ink-soft); }
+.figure.photo .fig-frame { padding: 0; border: none; background: none; overflow: visible; }
+.figure.photo img { display: block; margin: 0 auto; max-width: 100%; max-height: 460px; height: auto; border: 1px solid var(--line); }
+.figure.photo figcaption .src { display: block; font-size: 12px; margin-top: 2px; }
 svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
 svg text { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
 
@@ -223,7 +231,23 @@ footer.colophon {
 }
 a { color: var(--accent); }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-@media (max-width: 560px) { nav.toc ol { columns: 1; } }
+@media (max-width: 640px) {
+  /* 手机端：正文与次级文字统一放大；图保持可读宽度、在图框内横向滑动 */
+  body { font-size: 17px; line-height: 1.8; }
+  .wrap { padding: 0 18px 72px; }
+  .abstract { padding: 18px 16px 12px; }
+  .block-body { padding: 6px 14px 16px; }
+  .callout, .warnbox { padding: 12px 14px; }
+  header.cover { padding: 44px 0 28px; }
+  header.cover .sub { font-size: 17px; }
+  .abstract p, .callout, .warnbox, .block-body p, .block-body ul, dl.glossary dd, nav.toc a { font-size: 16px; }
+  nav.toc ul a, .figure figcaption, footer.colophon, .flow .s, .flow .a { font-size: 14px; }
+  .chap-head h2 { font-size: 24px; }
+  table { font-size: 15px; }
+  .stat .label { font-size: 13.5px; }
+  .figure:not(.photo) .fig-frame svg { max-width: none; width: 760px; }
+  nav.toc ol { columns: 1; }
+}
 /* PDF 导出：图与图注、环节卡片、表格不许被分页切开 */
 @media print { .figure, .block, .callout, .warnbox, table, .stats { break-inside: avoid; } }
 
@@ -237,6 +261,8 @@ a { color: var(--accent); }
 .term-tip b { color: var(--ink); display: block; margin-bottom: 2px; font-size: 13.5px; }
 .term-tip small { color: var(--muted); font-weight: 400; margin-left: 6px; font-size: 12px; }
 </style>
+</head>
+<body>
 
 <div class="wrap">
 
@@ -297,7 +323,8 @@ a { color: var(--accent); }
   <!-- 客户是谁 + 需求分层 + 隐形事实 -->
   <h3>2.2 产品与服务</h3>
   <!-- 真正卖的是什么；图2 产品全景【两层：客户掏差价买的是哪几件事 / 装进哪几种订单形态里卖并对比】
-       ⚠ 不许有"生命周期/怎么从头走到尾"这一层——那是第三章 L1 的活；经营策略段 -->
+       ⚠ 不许有"生命周期/怎么从头走到尾"这一层——那是第三章 L1 的活；经营策略段
+       有公开来源的产品实物照片就放这里：scripts/embed_photo.py 生成 figure.photo 片段，规范见 framework「实物照片」 -->
   <h3>2.3 上下游业务协作链</h3>
   <!-- 一两句话总起 → 图3 业务协作链（按上下游维度单向排布、从业务起点出发、⓪①②…按一单生意的顺序、
        实线=合规链/金虚线=灵活链、底注只写一句题眼）→ 图后分条讲解 → 上下游表（位置|角色|做什么|核心诉求，包在 .table-scroll）
@@ -390,3 +417,5 @@ document.addEventListener('click',function(e){
   if(!tip.contains(e.target)&&!(e.target.closest&&e.target.closest('a.term')))hide();});
 })();
 </script>
+</body>
+</html>

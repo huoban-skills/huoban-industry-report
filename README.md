@@ -78,6 +78,7 @@ git clone https://github.com/huoban-skills/huoban-industry-report.git ~/.claude/
 
 - **不编内部机制**：没有访谈就拿不到的东西（真实利润账、灰色链路、行业黑话、一线痛点），**宁可留白也不推演**——留白会用醒目的警示框标出来，并附一份"该去问什么"的访谈提纲。
 - **数字必须可溯源**：每个数字答不出"这数哪来的"就删；单一案例标"非行业统计口径"，示意测算标"示意"，推断年份标"推断"。
+- **访谈企业脱敏**：报告里不出现访谈对象的公司名、品牌名和人名，一律写「访谈企业」；终稿脚本按名单全文查零命中。
 - **灰色环节只描述、不指导**：如实写现状 + 合规风险提示，绝不给操作指引。
 
 ## 文件结构
@@ -89,7 +90,8 @@ huoban-industry-report/
 ├── references/research.md        # 检索通则：查什么、怎么扩口径、来源分级、查到哪停
 ├── references/desk-research.md   # 无一手访谈时：哪些能写、哪些必须留白
 ├── scripts/finalize.py           # 终稿统一入口：重导 SVG + 内容检查 + 图形检查
-├── scripts/check_report.py       # 质量闸：章节/图号/术语/抽象词/硬编码色
+├── scripts/check_report.py       # 质量闸：章节/图号/术语/抽象词/硬编码色/照片内嵌与来源/脱敏
+├── scripts/embed_photo.py        # 公开来源的实物照片压缩后内嵌成报告片段
 ├── scripts/check_svg_overlap.py  # 图形自检：线穿文字、文字出画布
 └── assets/template.html          # 设计系统骨架（藏青 × 铜金，深浅双主题）
 ```
